@@ -1,15 +1,19 @@
 import {ThemeProvider} from '@shopify/restyle';
 import React from 'react';
 
-import {Text} from 'react-native';
-
 import {theme} from './src/theme/theme';
+import {Text} from './src/components/Text/Text';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 function App(): React.JSX.Element {
   return (
-    <ThemeProvider theme={theme}>
-      <Text style={{color: theme.colors.primary}}>teste</Text>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <Text preset="headingLarge" color="carrotSecondary">
+          Teste
+        </Text>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 
