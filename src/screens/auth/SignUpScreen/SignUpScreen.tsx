@@ -4,8 +4,9 @@ import {Text} from '../../../components/Text/Text';
 import {TextInput} from '../../../components/TextInput/TextInput';
 import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 import {Button} from '../../../components/Button/Button';
+import {AuthScreenProps} from '../../../routes/navigationTypes';
 
-export function SignUpScreen() {
+export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
   return (
     <Screen canGoBack scrollable>
       <Text preset="headingLarge" mb="s32">
