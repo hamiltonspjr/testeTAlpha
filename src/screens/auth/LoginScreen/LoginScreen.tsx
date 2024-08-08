@@ -1,8 +1,6 @@
 import React from 'react';
 import {Screen} from '../../../components/Screen/Screen';
 import {Text} from '../../../components/Text/Text';
-import {TextInput} from '../../../components/TextInput/TextInput';
-import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 import {Button} from '../../../components/Button/Button';
 import {AuthScreenProps} from '../../../routes/navigationTypes';
 import {useForm} from 'react-hook-form';
@@ -10,6 +8,8 @@ import {loginSchema, LoginSchemaType} from './loginSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {FormTextInput} from '../../../components/Form/FormTextInput';
 import {FormPasswordInput} from '../../../components/Form/FormPasswordInput';
+import {useAuthSignIn} from '../../../domain/Auth/useCases/useAuthSignIn';
+import {useToastService} from '../../../services/toast/useToast';
 
 export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   const {control, formState, handleSubmit} = useForm<LoginSchemaType>({
@@ -21,8 +21,13 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
     mode: 'onChange',
   });
 
+  const {showToast} = useToastService();
+  const {isLoading, signIn} = useAuthSignIn({
+    onError: message => showToast({message, type: 'error'}),
+  });
+
   function submitForm({taxNumber, password}: LoginSchemaType) {
-    // TODO: implementar
+    signIn({taxNumber, password});
   }
 
   function navigateToSignUpScreen() {
@@ -51,6 +56,7 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
       />
 
       <Button
+        loading={isLoading}
         mt="s48"
         title="Entrar"
         onPress={handleSubmit(submitForm)}
