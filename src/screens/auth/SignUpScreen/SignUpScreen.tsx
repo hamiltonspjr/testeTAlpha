@@ -10,6 +10,18 @@ import {signUpSchema, SignUpSchemaType} from './signUpSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {FormTextInput} from '../../../components/Form/FormTextInput';
 import {FormPasswordInput} from '../../../components/Form/FormPasswordInput';
+import {AuthStackParamList} from '../../../routes/AuthStack';
+import {useAuthSignUp} from '../../../domain/Auth/useCases/useAuthSignUp';
+import {useResetNavigationSuccess} from '../../../hooks/useResetNavigationSuccess';
+
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: 'Sua conta foi criada com sucesso!',
+  description: 'Agora é só fazer login na nossa plataforma',
+  icon: {
+    name: 'checkRound',
+    color: 'success',
+  },
+};
 
 export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
   const {control, formState, handleSubmit} = useForm<SignUpSchemaType>({
@@ -23,9 +35,15 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
     },
     mode: 'onChange',
   });
+  const {reset} = useResetNavigationSuccess();
+  const {signUp, isLoading} = useAuthSignUp({
+    onSuccess: () => {
+      reset(resetParam);
+    },
+  });
 
   function submitForm(formValues: SignUpSchemaType) {
-    // TODO: implementar
+    signUp(formValues);
   }
 
   return (
@@ -71,6 +89,7 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
       />
 
       <Button
+        loading={isLoading}
         title="Criar minha conta"
         onPress={handleSubmit(submitForm)}
         disabled={!formState.isValid}

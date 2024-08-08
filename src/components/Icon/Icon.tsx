@@ -5,6 +5,8 @@ import {useAppTheme} from '../../hooks/useAppTheme';
 import {Pressable} from 'react-native';
 import {EyeOffIcon} from '../../assets/icons/EyeOffIcon';
 import {EyeOnIcon} from '../../assets/icons/EyeOnIcon';
+import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
+import {ErrorRoundIcon} from '../../assets/icons/ErrorRoundIcon';
 
 export interface IconBase {
   size?: number;
@@ -40,6 +42,8 @@ export function Icon({
 
 const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
+  checkRound: CheckRoundIcon,
+  errorRound: ErrorRoundIcon,
   eyeOff: EyeOffIcon,
   eyeOn: EyeOnIcon,
 };
