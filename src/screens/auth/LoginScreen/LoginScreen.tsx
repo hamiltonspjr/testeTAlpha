@@ -4,8 +4,12 @@ import {Text} from '../../../components/Text/Text';
 import {TextInput} from '../../../components/TextInput/TextInput';
 import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 import {Button} from '../../../components/Button/Button';
+import {AuthScreenProps} from '../../../routes/navigationTypes';
 
-export function LoginScreen() {
+export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
+  function navigateToSignUpScreen() {
+    navigation.navigate('SignUpScreen');
+  }
   return (
     <Screen>
       <Text marginBottom="s8" preset="headingLarge">
@@ -22,7 +26,12 @@ export function LoginScreen() {
       <PasswordInput label="Senha" placeholder="Digite sua senha" />
 
       <Button mt="s48" title="Entrar" />
-      <Button mt="s12" preset="outline" title="Criar uma conta" />
+      <Button
+        onPress={navigateToSignUpScreen}
+        mt="s12"
+        preset="outline"
+        title="Criar uma conta"
+      />
     </Screen>
   );
 }
