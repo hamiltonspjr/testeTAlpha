@@ -1,5 +1,5 @@
 import {api} from '../../api/apiConfig';
-import {PageAPI} from '../../api/apiTypes';
+import {PageAPI, PageProductAPI} from '../../api/apiTypes';
 import {ProductApi} from './productTypes';
 
 async function getList(): Promise<PageAPI<ProductApi>> {
@@ -9,7 +9,9 @@ async function getList(): Promise<PageAPI<ProductApi>> {
   return response.data;
 }
 
-async function getProductById(productId: number): Promise<PageAPI<ProductApi>> {
+async function getProductById(
+  productId: number,
+): Promise<PageProductAPI<ProductApi>> {
   const response = await api.get(`/api/products/get-one-product/${productId}`);
   return response.data;
 }
