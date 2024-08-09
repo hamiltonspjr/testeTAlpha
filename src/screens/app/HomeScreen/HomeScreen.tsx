@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Screen} from '../../../components/Screen/Screen';
 import {useProductList} from '../../../domain/Products/useCases/useProductList';
 import {
@@ -7,26 +7,24 @@ import {
   ListRenderItemInfo,
   RefreshControl,
 } from 'react-native';
-import {Product, ProductApi} from '../../../domain/Products/productTypes';
+import {Product} from '../../../domain/Products/productTypes';
 import {useScrollToTop} from '@react-navigation/native';
 import {ProductItem} from '../../../components/ProductItem/ProductItem';
 import {HomeEmpty} from './components/HomeEmpty';
 import {Text} from '../../../components/Text/Text';
 import {TextMessage} from '../../../components/TextMessage/TextMessage';
 import {Box} from '../../../components/Box/Box';
-import {useQuery} from '@tanstack/react-query';
-import {QueryKeys} from '../../../infra/infraTypes';
+
 import {productService} from '../../../domain/Products/productService';
-import {api} from '../../../api/apiConfig';
-import {PageAPI} from '../../../api/apiTypes';
-import {productAdapter} from '../../../domain/Products/productAdapter';
 
 export function HomeScreen() {
   const [filterValue, setFilterValue] = useState('');
   const [productFiltred, setProductFiltred] = useState<Product[] | undefined>(
     undefined,
   );
-  const {productList, isError, isLoading, refresh} = useProductList();
+  const [isLoadingFilter, setIsLoadingFilter] = useState(false);
+  const [isErrorFilter, setErrorFilter] = useState(false);
+  const {productList, isError, isLoading} = useProductList();
 
   const flatListRef = React.useRef<FlatList<Product>>(null);
   useScrollToTop(flatListRef);
@@ -36,11 +34,25 @@ export function HomeScreen() {
   }
 
   async function filterProductById(value: string) {
-    const response = await api.get(
-      `/api/products/get-one-product/${Number(value)}`,
-    );
-    setProductFiltred(response.data);
-    console.log(productFiltred?.map(productAdapter.toProduct));
+    setIsLoadingFilter(true);
+    const data = await productService.getProductById(Number(value));
+    const product = data.data.product;
+    const error = data.success;
+    if (!error) {
+      setErrorFilter(true);
+    }
+    if (product) {
+      setProductFiltred([product]);
+    } else {
+      setProductFiltred(undefined);
+    }
+    Keyboard.dismiss();
+    setFilterValue('');
+    setIsLoadingFilter(false);
+  }
+
+  function refresh() {
+    setProductFiltred(undefined);
   }
 
   return (
@@ -73,7 +85,11 @@ export function HomeScreen() {
             flex: productList?.length === 0 ? 1 : undefined,
           }}
           ListEmptyComponent={
-            <HomeEmpty refetch={refresh} error={isError} loading={isLoading} />
+            <HomeEmpty
+              refetch={refresh}
+              error={isError || isErrorFilter}
+              loading={isLoading || isLoadingFilter}
+            />
           }
         />
       </Box>

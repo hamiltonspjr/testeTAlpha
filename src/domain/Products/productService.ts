@@ -1,4 +1,4 @@
-import {Page} from '../../types/Pages';
+import {Page, PageProduct} from '../../types/Pages';
 import {productAdapter} from './productAdapter';
 import {productApi} from './productApi';
 import {Product} from './productTypes';
@@ -14,13 +14,15 @@ async function getList(): Promise<Page<Product>> {
   };
 }
 
-async function getProductById(productId: number): Promise<Page<Product>> {
+async function getProductById(
+  productId: number,
+): Promise<PageProduct<Product>> {
   const productData = await productApi.getProductById(productId);
   return {
     success: productData.success,
     message: productData.message,
     data: {
-      products: productData.data.products.map(productAdapter.toProduct),
+      product: productData.data.product,
     },
   };
 }

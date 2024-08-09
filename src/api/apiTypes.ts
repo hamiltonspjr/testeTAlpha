@@ -6,3 +6,12 @@ export interface PageAPI<TData> {
   message: null | string;
   data: DataApi<TData>;
 }
+
+interface DataProductAPI<TDATA> {
+  product: TDATA;
+}
+export interface PageProductAPI<TDATA> {
+  success: boolean;
+  message: null | string;
+  data: DataProductAPI<TDATA>;
+}
