@@ -17,7 +17,6 @@ export function useAuthSignIn(options?: MutationOptions<AuthCredentials>) {
     retry: false,
     onError: error => {
       if (options?.onError) {
-        console.log(error);
         options.onError(error.message);
       }
     },

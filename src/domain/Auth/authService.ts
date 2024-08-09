@@ -26,7 +26,6 @@ async function signUp(
 }
 
 function updateToken(token: string) {
-  console.log(token);
   api.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
