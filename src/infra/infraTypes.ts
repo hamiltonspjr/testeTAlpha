@@ -6,4 +6,5 @@ export interface MutationOptions<TDATA> {
 
 export enum QueryKeys {
   ProductList = 'ProductList',
+  ProductById = 'ProductById',
 }

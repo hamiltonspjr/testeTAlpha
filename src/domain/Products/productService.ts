@@ -14,6 +14,18 @@ async function getList(): Promise<Page<Product>> {
   };
 }
 
+async function getProductById(productId: number): Promise<Page<Product>> {
+  const productData = await productApi.getProductById(productId);
+  return {
+    success: productData.success,
+    message: productData.message,
+    data: {
+      products: productData.data.products.map(productAdapter.toProduct),
+    },
+  };
+}
+
 export const productService = {
   getList,
+  getProductById,
 };
