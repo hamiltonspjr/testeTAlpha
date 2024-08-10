@@ -4,6 +4,9 @@ import {Text} from '../../../components/Text/Text';
 import {AppScreenProps} from '../../../routes/navigationTypes';
 import {Box} from '../../../components/Box/Box';
 import {Button} from '../../../components/Button/Button';
+import {useDeleteProduct} from '../../../domain/Products/useCases/useDeleteProduct';
+import {useToastService} from '../../../services/toast/useToast';
+import {Alert} from 'react-native';
 
 export function ProductScreen({
   route,
@@ -13,6 +16,30 @@ export function ProductScreen({
     navigation.navigate('UpdateProductScreen', {
       product: route.params.product,
     });
+  }
+  const {showToast} = useToastService();
+  const {isPending, deleteProduct} = useDeleteProduct({
+    onError: message => showToast({message, type: 'error'}),
+  });
+
+  function productDelete(productId: number) {
+    Alert.alert('Deletar produto', 'Deseja realmente deletar esse produto?', [
+      {
+        text: 'Sim',
+        onPress: () => {
+          deleteProduct(productId);
+          showToast({message: 'Produto excluido com sucesso', type: 'success'});
+          navigation.navigate('AppTabNavigator', {
+            screen: 'HomeScreen',
+          });
+        },
+        style: 'default',
+      },
+      {
+        text: 'Não',
+        style: 'cancel',
+      },
+    ]);
   }
 
   return (
@@ -46,7 +73,13 @@ export function ProductScreen({
         mt="s32"
         onPress={navigateToUpdateProductScreen}
       />
-      <Button preset="outline" title="Excluir" mt="s10" />
+      <Button
+        preset="outline"
+        title="Excluir"
+        mt="s10"
+        disabled={isPending}
+        onPress={() => productDelete(route.params.product.id)}
+      />
     </Screen>
   );
 }
