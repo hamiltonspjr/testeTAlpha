@@ -1,7 +1,8 @@
+import {PageResponse} from '../../api/apiTypes';
 import {Page, PageProduct} from '../../types/Pages';
 import {productAdapter} from './productAdapter';
 import {productApi} from './productApi';
-import {Product} from './productTypes';
+import {Product, ProductCreateAndUpdate} from './productTypes';
 
 async function getList(): Promise<Page<Product>> {
   const productDataApi = await productApi.getList();
@@ -27,7 +28,17 @@ async function getProductById(
   };
 }
 
+async function create(product: ProductCreateAndUpdate): Promise<PageResponse> {
+  const createResponse = await productApi.create(product);
+  return {
+    success: createResponse.success,
+    message: createResponse.message,
+    data: createResponse.data,
+  };
+}
+
 export const productService = {
   getList,
   getProductById,
+  create,
 };
