@@ -26,7 +26,22 @@ async function create(product: ProductCreateAndUpdate): Promise<PageResponse> {
       stock: product.stock,
     },
   );
-  console.log(response.data);
+  return response.data;
+}
+
+async function update(
+  idProduct: number,
+  product: ProductCreateAndUpdate,
+): Promise<void> {
+  const response = await api.patch<void>(
+    `/api/products/update-product/${idProduct}`,
+    {
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+    },
+  );
   return response.data;
 }
 
@@ -34,4 +49,5 @@ export const productApi = {
   getList,
   getProductById,
   create,
+  update,
 };

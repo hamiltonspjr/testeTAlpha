@@ -5,7 +5,16 @@ import {AppScreenProps} from '../../../routes/navigationTypes';
 import {Box} from '../../../components/Box/Box';
 import {Button} from '../../../components/Button/Button';
 
-export function ProductScreen({route}: AppScreenProps<'ProductScreen'>) {
+export function ProductScreen({
+  route,
+  navigation,
+}: AppScreenProps<'ProductScreen'>) {
+  function navigateToUpdateProductScreen() {
+    navigation.navigate('UpdateProductScreen', {
+      product: route.params.product,
+    });
+  }
+
   return (
     <Screen canGoBack title="Página de Produto">
       <Box flexDirection="row" gap="s4">
@@ -32,7 +41,11 @@ export function ProductScreen({route}: AppScreenProps<'ProductScreen'>) {
         </Text>
         <Text>{route.params.product.stock}</Text>
       </Box>
-      <Button title="Atualizar produto" mt="s32" />
+      <Button
+        title="Atualizar produto"
+        mt="s32"
+        onPress={navigateToUpdateProductScreen}
+      />
       <Button preset="outline" title="Excluir" mt="s10" />
     </Screen>
   );

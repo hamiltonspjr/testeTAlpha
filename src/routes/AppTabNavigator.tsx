@@ -4,7 +4,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {HomeScreen} from '../screens/app/HomeScreen/HomeScreen';
-import {CreateProductScreen} from '../screens/app/CreateProduct/CreateProduct';
+import {CreateProductScreen} from '../screens/app/CreateProductScreen/CreateProductScreen';
 import {AppTabBar} from './AppTabBar';
 
 export type AppTabBottomTabParamList = {

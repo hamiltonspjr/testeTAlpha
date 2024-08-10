@@ -37,8 +37,17 @@ async function create(product: ProductCreateAndUpdate): Promise<PageResponse> {
   };
 }
 
+async function update(
+  idProduct: number,
+  product: ProductCreateAndUpdate,
+): Promise<void> {
+  const response = await productApi.update(idProduct, product);
+  return response;
+}
+
 export const productService = {
   getList,
   getProductById,
   create,
+  update,
 };
