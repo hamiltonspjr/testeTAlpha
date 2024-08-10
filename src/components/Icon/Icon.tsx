@@ -7,6 +7,9 @@ import {EyeOffIcon} from '../../assets/icons/EyeOffIcon';
 import {EyeOnIcon} from '../../assets/icons/EyeOnIcon';
 import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
 import {ErrorRoundIcon} from '../../assets/icons/ErrorRoundIcon';
+import {HomeIcon} from '../../assets/icons/HomeIcon';
+import {HomeFillIcon} from '../../assets/icons/HomeFillIcon';
+import {NewProductIcon} from '../../assets/icons/NewProduct';
 
 export interface IconBase {
   size?: number;
@@ -46,6 +49,9 @@ const iconRegistry = {
   errorRound: ErrorRoundIcon,
   eyeOff: EyeOffIcon,
   eyeOn: EyeOnIcon,
+  home: HomeIcon,
+  homeFill: HomeFillIcon,
+  newProduct: NewProductIcon,
 };
 
 type IconType = typeof iconRegistry;
