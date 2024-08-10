@@ -13,3 +13,10 @@ export interface Product {
   price: number;
   stock: number;
 }
+
+export interface ProductCreateAndUpdate {
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+}

@@ -1,6 +1,6 @@
 import {api} from '../../api/apiConfig';
-import {PageAPI, PageProductAPI} from '../../api/apiTypes';
-import {ProductApi} from './productTypes';
+import {PageAPI, PageProductAPI, PageResponse} from '../../api/apiTypes';
+import {ProductApi, ProductCreateAndUpdate} from './productTypes';
 
 async function getList(): Promise<PageAPI<ProductApi>> {
   const response = await api.get<PageAPI<ProductApi>>(
@@ -16,7 +16,22 @@ async function getProductById(
   return response.data;
 }
 
+async function create(product: ProductCreateAndUpdate): Promise<PageResponse> {
+  const response = await api.post<PageResponse>(
+    '/api/products/create-product',
+    {
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+    },
+  );
+  console.log(response.data);
+  return response.data;
+}
+
 export const productApi = {
   getList,
   getProductById,
+  create,
 };

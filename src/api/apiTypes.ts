@@ -15,3 +15,9 @@ export interface PageProductAPI<TDATA> {
   message: null | string;
   data: DataProductAPI<TDATA>;
 }
+
+export interface PageResponse {
+  success: boolean;
+  message: string;
+  data: null;
+}
