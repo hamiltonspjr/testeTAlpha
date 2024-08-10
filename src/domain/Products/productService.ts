@@ -45,9 +45,15 @@ async function update(
   return response;
 }
 
+async function deleteProduct(idProduct: number): Promise<void> {
+  const response = await productApi.deleteProduct(idProduct);
+  return response;
+}
+
 export const productService = {
   getList,
   getProductById,
   create,
   update,
+  deleteProduct,
 };
